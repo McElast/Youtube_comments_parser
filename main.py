@@ -4,9 +4,9 @@ from selenium.webdriver.common.keys import Keys
 from time import sleep
 
 EN = ('K', 'M', 'Chanel: ', 'Subscribers: ', 'Video title: ', 'URL: ', 'Date: ',
-      'Views: ', 'Likes: ', 'Dislikes: ', 'Description: ', '----- Comments -------')
+      'Views: ', 'Likes: ', 'Dislikes: ', 'Description: ', '----- Comments -------', 'Show more replies')
 RU = ('ТЫС.', 'МЛН', 'Канал: ', 'Подписчиков: ', 'Ролик: ', 'Ссылка на видео: ', 'Дата публикации: ',
-      'Просмотров: ', 'Лайков: ', 'Дизлайков: ', 'Описание: ', '----- Комментарии -------')
+      'Просмотров: ', 'Лайков: ', 'Дизлайков: ', 'Описание: ', '----- Комментарии -------', 'Другие ответы')
 
 
 def num_to_str(w, lang=RU):
@@ -40,9 +40,9 @@ def parse(url, lang=RU):
     browser.maximize_window()
 
     def bad(driver):
-        bd = driver.find_elements_by_css_selector('div.ytd-mealbar-promo-renderer')[0]
-        if bd.is_displayed():
-            bd.find_element_by_tag_name('a').send_keys(Keys.ESCAPE)
+        bd = driver.find_elements_by_css_selector('div.ytd-mealbar-promo-renderer')
+        if len(bd) > 0 and bd[0].is_displayed():
+            bd[0].find_element_by_tag_name('a').send_keys(Keys.ESCAPE)
 
     browser.get(url)
     browser.implicitly_wait(10)
@@ -82,7 +82,7 @@ def parse(url, lang=RU):
     browser.find_element_by_tag_name('body').send_keys(Keys.PAGE_DOWN)
     browser.find_element_by_tag_name('body').send_keys(Keys.PAGE_DOWN)
     cnt = 0
-    for i in range(1, 777777777):
+    for i in range(1, 777777777777777777):
         browser.find_element_by_tag_name('body').send_keys(Keys.PAGE_DOWN)
         sleep(1)
         if i == 10:
@@ -123,9 +123,10 @@ def parse(url, lang=RU):
                 if len(nex) <= 1:
                     break
                 for _ in nex[:-1]:
-                    if _.is_displayed():
+                    if _.text == lang[12] and _.is_displayed():
+                        browser.execute_script("arguments[0].scrollIntoView(false);", _)
                         _.click()
-                        sleep(2)
+                        sleep(3)
             replies = k.find_elements_by_css_selector('ytd-comment-renderer')
             if len(replies) > 1:
                 for s in replies[1:]:
