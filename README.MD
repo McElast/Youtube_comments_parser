@@ -17,7 +17,7 @@ You will get in txt file:
 - description
 - chanel name
 - amount of subscribers
-- comments expanded in tree-mode
+- comments expanded in tree-mode (for readability)
 Works with python 3.8.1
 -------------------------------------
 # How to USE
