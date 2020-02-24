@@ -83,7 +83,6 @@ def parse(url, lang=RU):
     browser.find_element_by_tag_name('body').send_keys(Keys.PAGE_DOWN)
     cnt = 0
     for i in range(1, 777777777):
-        print(i)
         browser.find_element_by_tag_name('body').send_keys(Keys.PAGE_DOWN)
         sleep(1)
         if i == 10:
@@ -92,9 +91,10 @@ def parse(url, lang=RU):
         divs2 = browser.find_elements_by_css_selector('ytd-comment-thread-renderer.style-scope')
         if len(divs2) == divs1:
             cnt += 1
-        if cnt == 5:
+            if cnt == 5:
+                break
+        else:
             cnt = 0
-            break
         divs1 = len(divs2)
     bad(driver=browser)
     for k in divs2:
@@ -113,15 +113,19 @@ def parse(url, lang=RU):
                 bad(driver=browser)
                 q.send_keys(Keys.ARROW_UP)
                 sleep(1.5)
-                q.click()
+                if q.is_displayed():
+                    q.click()
+                else:
+                    sleep(2)
             sleep(1)
             while True:
                 nex = k.find_elements_by_css_selector('yt-formatted-string.yt-next-continuation')
                 if len(nex) <= 1:
                     break
                 for _ in nex[:-1]:
-                    _.click()
-                    sleep(2)
+                    if _.is_displayed():
+                        _.click()
+                        sleep(2)
             replies = k.find_elements_by_css_selector('ytd-comment-renderer')
             if len(replies) > 1:
                 for s in replies[1:]:
