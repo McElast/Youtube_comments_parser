@@ -80,7 +80,7 @@ def parse(url, lang=RU):
         print(lang[10], desc, file=f)
         print(lang[11], file=f)
     divs1, divs2 = 0, []
-    for i in range(1, 888888):
+    for i in range(1, 8888880):
         browser.execute_script(f"window.scrollBy(0, {i * 900});")
         sleep(1)
         if i == 10:
@@ -90,7 +90,6 @@ def parse(url, lang=RU):
         if len(divs2) == divs1:
             break
         divs1 = len(divs2)
-        print(i)
     browser.execute_script(f"window.scrollBy(0, 900);")
     bad(driver=browser)
     for k in divs2:
@@ -108,7 +107,7 @@ def parse(url, lang=RU):
                 q = repl_p[0].find_elements_by_css_selector('a.yt-simple-endpoint')[0]
                 bad(driver=browser)
                 q.send_keys(Keys.ARROW_UP)
-                sleep(1)
+                sleep(1.5)
                 q.click()
             sleep(1)
             while True:
