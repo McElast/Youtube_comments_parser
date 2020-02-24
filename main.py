@@ -82,7 +82,7 @@ def parse(url, lang=RU):
     browser.find_element_by_tag_name('body').send_keys(Keys.PAGE_DOWN)
     browser.find_element_by_tag_name('body').send_keys(Keys.PAGE_DOWN)
     cnt = 0
-    for i in range(1, 777777777777777777):
+    for i in range(1, 77777777777):
         browser.find_element_by_tag_name('body').send_keys(Keys.PAGE_DOWN)
         sleep(1)
         if i == 10:
@@ -126,7 +126,7 @@ def parse(url, lang=RU):
                     if _.text == lang[12] and _.is_displayed():
                         browser.execute_script("arguments[0].scrollIntoView(false);", _)
                         _.click()
-                        sleep(3)
+                        sleep(4)
             replies = k.find_elements_by_css_selector('ytd-comment-renderer')
             if len(replies) > 1:
                 for s in replies[1:]:
