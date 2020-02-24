@@ -7,7 +7,7 @@ Useful for videos with big amount of commentaries (not suitable for huge amount 
 Output file - txt.
 You can use it without registration on YouTube.
 Autoplay video and autoswitch to next video will be escaped.
---------
+-------------------------------------
 You will get in txt file:
 - video URL
 - title
@@ -19,7 +19,7 @@ You will get in txt file:
 - amount of subscribers
 - comments expanded in tree-mode
 Works with python 3.8.1
-------------------------------------
+-------------------------------------
 # How to USE
 - download Selenium ('pip install -U selenium')
 - download ChromeDriver (it should equals you version of ChromeBrowser) - 
