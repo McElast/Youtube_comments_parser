@@ -4,9 +4,9 @@ from selenium.webdriver.common.keys import Keys
 from time import sleep
 
 EN = ('K', 'M', 'Chanel: ', 'Subscribers: ', 'Video title: ', 'URL: ', 'Date: ',
-      'Views: ', 'Likes: ', 'Dislikes: ', 'Description: ', '----- Comments -------', 'Cancel')
+      'Views: ', 'Likes: ', 'Dislikes: ', 'Description: ', '----- Comments -------')
 RU = ('ТЫС.', 'МЛН', 'Канал: ', 'Подписчиков: ', 'Ролик: ', 'Ссылка на видео: ', 'Дата публикации: ',
-      'Просмотров: ', 'Лайков: ', 'Дизлайков: ', 'Описание: ', '----- Комментарии -------', 'Отмена')
+      'Просмотров: ', 'Лайков: ', 'Дизлайков: ', 'Описание: ', '----- Комментарии -------')
 
 
 def num_to_str(w, lang=RU):
@@ -20,9 +20,9 @@ def num_to_str(w, lang=RU):
 
 
 def subscr(w, lang=RU):
-    if lang[0] or lang[0].lower() in w[1]:
+    if lang[0] in w[1] or lang[0].lower() in w[1]:
         num = int(float(w[0].replace(',', '.')) * 1000)
-    elif lang[1] or lang[1].lower() in w[1]:
+    elif lang[1] in w[1] or lang[1].lower() in w[1]:
         num = int(float(w[0].replace(',', '.')) * 1_000_000)
     else:
         num = int(w[0])
@@ -40,11 +40,10 @@ def parse(url, lang=RU):
     browser.maximize_window()
 
     def bad(driver):
-        bd = driver.find_elements_by_css_selector('paper-button')
-        for _ in bd:
-            if 'OK' or lang[12] in _.text:
-                _.send_keys(Keys.ESCAPE)
-                break
+        bd = driver.find_elements_by_css_selector('div.ytd-mealbar-promo-renderer')[0]
+        if bd.is_displayed():
+            bd.find_element_by_tag_name('a').send_keys(Keys.ESCAPE)
+
     browser.get(url)
     browser.implicitly_wait(10)
     browser.find_element_by_css_selector('paper-toggle-button#toggle').click()
@@ -80,17 +79,23 @@ def parse(url, lang=RU):
         print(lang[10], desc, file=f)
         print(lang[11], file=f)
     divs1, divs2 = 0, []
-    for i in range(1, 8888880):
-        browser.execute_script(f"window.scrollBy(0, {i * 900});")
+    browser.find_element_by_tag_name('body').send_keys(Keys.PAGE_DOWN)
+    browser.find_element_by_tag_name('body').send_keys(Keys.PAGE_DOWN)
+    cnt = 0
+    for i in range(1, 777777777):
+        print(i)
+        browser.find_element_by_tag_name('body').send_keys(Keys.PAGE_DOWN)
         sleep(1)
         if i == 10:
             bad(driver=browser)
             browser.find_element_by_tag_name('body').send_keys(Keys.SPACE)
         divs2 = browser.find_elements_by_css_selector('ytd-comment-thread-renderer.style-scope')
         if len(divs2) == divs1:
+            cnt += 1
+        if cnt == 5:
+            cnt = 0
             break
         divs1 = len(divs2)
-    browser.execute_script(f"window.scrollBy(0, 900);")
     bad(driver=browser)
     for k in divs2:
         print('....... Comment ', divs2.index(k) + 1, '/', len(divs2), '..........')
@@ -132,4 +137,4 @@ def parse(url, lang=RU):
     browser.close()
 
 
-parse('https://www.youtube.com/watch?v=YiUaJgW9ZP8', lang=RU)
+parse('https://www.youtube.com/watch?v=gCYcHz2k5x0', lang=RU)
