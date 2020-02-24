@@ -133,4 +133,4 @@ def parse(url, lang=RU):
     browser.close()
 
 
-parse('https://www.youtube.com/watch?v=COmkMcclgV8', lang=RU)
+parse('https://www.youtube.com/watch?v=YiUaJgW9ZP8', lang=RU)
