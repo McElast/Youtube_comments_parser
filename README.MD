@@ -36,12 +36,11 @@ If your language differs from RU or EN - just create new tuple at the beginning 
 
 "Cancel" element in lang and 'OK' inside parse function done for popup-elements (to close them), 
 because they can interrupt script. 
-
 --------------------------------------
 THNX for using.
 
-++++++++++++++++++++++++++++++++++++++
-Русский туториал
+# Русский туториал
+--------------------------------------
 # Описание 
 Скрипт сделан для автоматического сбора комментариев под Ютуб видео.
 Не очень подходит для массового потока роликов с малым количеством комментариев 
