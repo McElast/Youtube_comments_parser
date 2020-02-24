@@ -34,8 +34,6 @@ You should use language version of your ChromeBrowser (default value is Russian)
 If you settings are for English - you must change optional arg to EN (in 7 places)
 If your language differs from RU or EN - just create new tuple at the beginning with desired elements
 
-"Cancel" element in lang and 'OK' inside parse function done for popup-elements (to close them), 
-because they can interrupt script. 
 --------------------------------------
 THNX for using.
 
