@@ -47,6 +47,7 @@ def parse(url, lang=RU):
     browser.get(url)
     browser.implicitly_wait(10)
     browser.find_element_by_css_selector('paper-toggle-button#toggle').click()
+    print('...Autoplay off...')
     output = browser.title.split()[0] + '.txt'
 
     with open(output, 'w', encoding='utf8') as f:
@@ -88,6 +89,7 @@ def parse(url, lang=RU):
         if i == 10:
             bad(driver=browser)
             browser.find_element_by_tag_name('body').send_keys(Keys.SPACE)
+            print('....Video paused....')
         divs2 = browser.find_elements_by_css_selector('ytd-comment-thread-renderer.style-scope')
         if len(divs2) == divs1:
             cnt += 1
@@ -115,28 +117,27 @@ def parse(url, lang=RU):
                 sleep(1.5)
                 if q.is_displayed():
                     q.click()
-                else:
-                    sleep(2)
-            sleep(1)
-            while True:
-                nex = k.find_elements_by_css_selector('yt-formatted-string.yt-next-continuation')
-                if len(nex) <= 1:
-                    break
-                for _ in nex[:-1]:
-                    t = 0
-                    while t < 5:
-                        try:
-                            if _.text == lang[12] and _.is_displayed():
-                                browser.execute_script("arguments[0].scrollIntoView(false);", _)
-                                _.click()
-                                sleep(2)
-                                t = 0
-                        except Exception:
-                            t += 1
-            replies = k.find_elements_by_css_selector('ytd-comment-renderer')
-            if len(replies) > 1:
-                for s in replies[1:]:
-                    print('\tAnswer ', replies.index(s), ' / ', len(replies) - 1)
+                    sleep(1)
+                while True:
+                    nex = k.find_elements_by_css_selector('yt-formatted-string.yt-next-continuation')
+                    nex = (i for i in nex if i.text.strip() == lang[12])
+                    if lang[12] not in nex:
+                        break
+                    for _ in nex:
+                        t = 0
+                        while t < 5:
+                            try:
+                                if _.is_displayed():
+                                    browser.execute_script("arguments[0].scrollIntoView(false);", _)
+                                    _.click()
+                                    sleep(1)
+                                    t = 0
+                            except Exception:
+                                t += 1
+                replies = k.find_element_by_css_selector('div#loaded-replies')
+                replies = replies.find_elements_by_css_selector('ytd-comment-renderer')
+                for s in replies:
+                    print('\tAnswer ', replies.index(s) + 1, ' / ', len(replies))
                     rep_auth = s.find_element_by_css_selector('a#author-text').text.strip()
                     if len(rep_auth) == 0:
                         rep_auth = s.find_element_by_css_selector('yt-formatted-string#text').text.strip()
@@ -148,4 +149,4 @@ def parse(url, lang=RU):
     browser.close()
 
 
-parse('https://www.youtube.com/watch?v=gCYcHz2k5x0', lang=RU)
+parse('https://www.youtube.com/watch?v=1E4RKg6z3r0', lang=RU)
