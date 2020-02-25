@@ -83,7 +83,7 @@ def parse(url, lang=RU):
     browser.find_element_by_tag_name('body').send_keys(Keys.PAGE_DOWN)
     browser.find_element_by_tag_name('body').send_keys(Keys.PAGE_DOWN)
     cnt = 0
-    for i in range(1, 777777777777777):
+    for i in range(1, 777777777777777777):
         browser.find_element_by_tag_name('body').send_keys(Keys.PAGE_DOWN)
         sleep(1)
         if i == 10:
@@ -120,8 +120,9 @@ def parse(url, lang=RU):
                     sleep(1)
                 while True:
                     nex = k.find_elements_by_css_selector('yt-formatted-string.yt-next-continuation')
-                    nex = (i for i in nex if i.text.strip() == lang[12])
-                    if lang[12] not in nex:
+                    nex = [i for i in nex if i.text.strip() == lang[12]]
+                    txt = [i.text.strip() for i in nex]
+                    if lang[12] not in txt:
                         break
                     for _ in nex:
                         t = 0
